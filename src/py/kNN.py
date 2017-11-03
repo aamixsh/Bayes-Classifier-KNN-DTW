@@ -113,13 +113,13 @@ for contents in os.listdir(directT):
 			testSequence=[]
 			for line in file:
 				number_strings=line.split()
-				numbers=[int(num) for num in number_strings]
+				numbers=[float(num) for num in number_strings]
 				testSequence.append(numbers)
 			n=len(testSequence)
 			print "Calculating DTW distances of all training samples from test sample - "+filename+"..."
 			for contentsTrain in os.listdir(direct):
 				createPath(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"))
-				outFileTotal=open(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"),"a")
+				outFileTotal=open(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"),"w")
 				contentTrainName=os.path.join(direct,contentsTrain)
 				if os.path.isdir(contentTrainName) and contentsTrain!="use":
 					for trainFilename in os.listdir(contentTrainName):
@@ -127,7 +127,7 @@ for contents in os.listdir(directT):
 						trainSequence=[]
 						for line in trainFile:
 							number_strings=line.split()
-							numbers=[int(num) for num in number_strings]
+							numbers=[float(num) for num in number_strings]
 							trainSequence.append(numbers)
 						m=len(trainSequence)
 						DTWdistance=DTW(testSequence,n,trainSequence,m)
@@ -155,15 +155,9 @@ for contents in os.listdir(directory):
 						else:
 							numbers.append(number_strings[i])
 					Array.append(numbers)
-				Array.sort(key=Key)
+				Array.sort(key=takeFirst)
 				for i in range(len(Array)):
 					outFile.write(str(Array[i][0])+" "+Array[i][1]+" "+Array[i][2]+"\n")
-
-#	Saving class names.
-for contents in os.listdir(directory):
-	contentName=os.path.join(directory,contents)
-	if os.path.isdir(contentName):
-		classes.append(contents)
 
 print "Classifiying samples according to k-NN method..."
 for contents in os.listdir(directory):
@@ -212,9 +206,8 @@ for contents in os.listdir(directory):
 				file.close()
 		classesData.append(classImages)
 
-print "Calculating results:"
 for k in range(maxK):
-	print "For k = "+str(k+1)+"..."
+	print "Calculating results for k = "+str(k+1)+"..."
 	for i in range(len(classesData)):
 		createPath(os.path.join(directoryO,"k"+str(k+1),classes[i]+"_values.txt"))
 		file=open(os.path.join(directoryO,"k"+str(k+1),classes[i]+"_values.txt"),"w")
@@ -260,8 +253,6 @@ for k in range(maxK):
 	
 	print "Data testing complete. Writing results in files for future reference..."
 	filer=open(os.path.join(directoryO,"k"+str(k+1),"results.txt"),"w")
-	
-	print os.path.join(directoryO,"k"+str(k+1),"results.txt")
 
 	filer.write("The Confusion Matrix of all classes together is: \n")
 	for i in range(len(classes)):
@@ -274,7 +265,6 @@ for k in range(maxK):
 		filer.write("\nClass "+str(i+1)+": \n")
 		for x in range(2):
 			for y in range(2):
-				print str(confusionMatClass[i][x][y])
 				filer.write(str(confusionMatClass[i][x][y])+" ")
 			filer.write("\n")
 
