@@ -1,0 +1,3 @@
+coast 12
+kennel_outdoor 38
+volleyball_court_indoor 0
