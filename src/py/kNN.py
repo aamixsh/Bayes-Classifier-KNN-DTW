@@ -119,7 +119,7 @@ for contents in os.listdir(directT):
 			print "Calculating DTW distances of all training samples from test sample - "+filename+"..."
 			for contentsTrain in os.listdir(direct):
 				createPath(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"))
-				outFileTotal=open(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"),"w")
+				outFileTotal=open(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"),"a")
 				contentTrainName=os.path.join(direct,contentsTrain)
 				if os.path.isdir(contentTrainName) and contentsTrain!="use":
 					for trainFilename in os.listdir(contentTrainName):
