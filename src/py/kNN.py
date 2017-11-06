@@ -1,5 +1,5 @@
 #	CS669 - Assignment 3 (Group-2) 
-#	Last edit: 4/11/17
+#	Last edit: 6/11/17
 #	About: 
 #		This program is a Bayes Classifier using k-nearest neighbour method using DTW distances between samples.
 
@@ -18,7 +18,7 @@ def dist(x,y):
 	distance=math.sqrt(distance)
 	return (distance)
 
-#	Returns the DTW distance between two sequences of feature vectors.
+#	Returns the DTW distance between two sequences of feature vectors (Naive, further improvements can be made later).
 def DTW(x,n,y,m):
 	dtwArray=[[0.0 for i in range(m)] for j in range(n)]
 	
@@ -51,7 +51,7 @@ def calcConfusion():
 		x=0
 		for line in file:
 			data=line.split()
-			confusionMatrix[i][x]=int(data[1])
+			confusionMatrix[x][i]=int(data[1])
 			x+=1
 	return confusionMatrix
 
@@ -118,8 +118,8 @@ for contents in os.listdir(directT):
 			n=len(testSequence)
 			print "Calculating DTW distances of all training samples from test sample - "+filename+"..."
 			for contentsTrain in os.listdir(direct):
-				createPath(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"))
-				outFileTotal=open(os.path.join(directO,"distances_second_attempt",contents,filename,"total.txt"),"a")
+				createPath(os.path.join(directO,"distances",contents,filename,"total.txt"))	
+				outFileTotal=open(os.path.join(directO,"distances",contents,filename,"total.txt"),"a")
 				contentTrainName=os.path.join(direct,contentsTrain)
 				if os.path.isdir(contentTrainName) and contentsTrain!="use":
 					for trainFilename in os.listdir(contentTrainName):
@@ -134,8 +134,8 @@ for contents in os.listdir(directT):
 						outFileTotal.write(str(DTWdistance)+" "+trainFilename+" "+contentsTrain+"\n")
 				outFileTotal.close()
 
-directory=os.path.join(directO,"distances_second_attempt")
-directoryO=os.path.join(directO,"results_second_attempt")
+directory=os.path.join(directO,"distances")
+directoryO=os.path.join(directO,"results")
 print "Sorting distances..."
 for contents in os.listdir(directory):
 	contentName=os.path.join(directory,contents)
